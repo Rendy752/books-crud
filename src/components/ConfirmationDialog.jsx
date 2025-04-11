@@ -4,64 +4,32 @@ const ConfirmationDialog = ({ isOpen, message, onConfirm, onCancel }) => {
   }
 
   return (
-    <div style={styles.modalOverlay}>
-      <div style={styles.modal}>
-        <p style={styles.modalMessage}>{message}</p>
-        <div style={styles.modalButtons}>
-          <button onClick={onCancel} style={styles.cancelButton}>
+    <div
+      className="fixed inset-0 flex justify-center items-center"
+      onClick={onCancel}
+    >
+      <div
+        className="bg-white p-6 rounded-md shadow-md"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <p className="mb-4">{message}</p>
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={onCancel}
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
             Cancel
           </button>
-          <button onClick={onConfirm} style={styles.deleteButton}>
+          <button
+            onClick={onConfirm}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
             Delete
           </button>
         </div>
       </div>
     </div>
   );
-};
-
-const styles = {
-  modalOverlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modal: {
-    backgroundColor: "white",
-    padding: "20px",
-    borderRadius: "5px",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-  },
-  modalMessage: {
-    marginBottom: "15px",
-  },
-  modalButtons: {
-    display: "flex",
-    justifyContent: "flex-end",
-    gap: "10px",
-  },
-  cancelButton: {
-    backgroundColor: "#ccc",
-    color: "black",
-    padding: "8px 15px",
-    borderRadius: "3px",
-    cursor: "pointer",
-    border: "none",
-  },
-  deleteButton: {
-    backgroundColor: "#dc3545",
-    color: "white",
-    padding: "8px 15px",
-    borderRadius: "3px",
-    cursor: "pointer",
-    border: "none",
-  },
 };
 
 export default ConfirmationDialog;
