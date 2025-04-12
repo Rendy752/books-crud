@@ -8,7 +8,7 @@ const useBookList = () => {
   const [error, setError] = useState(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [bookToDeleteId, setBookToDeleteId] = useState(null);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   const fetchBooks = async () => {
     setLoading(true);
@@ -29,14 +29,9 @@ const useBookList = () => {
     fetchBooks();
   }, []);
 
-  const openDeleteConfirmation = (id) => {
-    setBookToDeleteId(id);
-    setDeleteConfirmationOpen(true);
-  };
-
-  const closeDeleteConfirmation = () => {
-    setBookToDeleteId(null);
-    setDeleteConfirmationOpen(false);
+  const setDeleteConfirmationDialog = (id) => {
+    id && setBookToDeleteId(id);
+    setDeleteConfirmationOpen(id != null);
   };
 
   const confirmDelete = async () => {
@@ -46,7 +41,7 @@ const useBookList = () => {
         await fetchBooks();
         setError(null);
         toast.success("Book deleted successfully!");
-        closeDeleteConfirmation();
+        setDeleteConfirmationDialog();
       } catch (err) {
         setError(err.message);
         toast.error(`Error deleting book: ${err.message}`);
@@ -54,24 +49,17 @@ const useBookList = () => {
     }
   };
 
-  const openAddModal = () => {
-    setIsAddModalOpen(true);
-  };
-
-  const closeAddModal = () => {
-    setIsAddModalOpen(false);
+  const setAddDialog = (open) => {
+    setIsAddDialogOpen(open);
   };
 
   const handleAddBook = async (newBookData) => {
     try {
-      await addBook({
-        ...newBookData,
-        readPage: newBookData.readPage || 0,
-      });
+      await addBook(newBookData);
       await fetchBooks();
       setError(null);
       toast.success("Book added successfully!");
-      closeAddModal();
+      setAddDialog(false);
       return true;
     } catch (err) {
       setError(err.message);
@@ -85,12 +73,10 @@ const useBookList = () => {
     loading,
     error,
     deleteConfirmationOpen,
-    isAddModalOpen,
-    openDeleteConfirmation,
-    closeDeleteConfirmation,
+    isAddDialogOpen,
+    setDeleteConfirmationDialog,
     confirmDelete,
-    openAddModal,
-    closeAddModal,
+    setAddDialog,
     handleAddBook,
   };
 };

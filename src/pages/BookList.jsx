@@ -10,12 +10,10 @@ const BookList = () => {
     loading,
     error,
     deleteConfirmationOpen,
-    isAddModalOpen,
-    openDeleteConfirmation,
-    closeDeleteConfirmation,
+    isAddDialogOpen,
+    setDeleteConfirmationDialog,
     confirmDelete,
-    openAddModal,
-    closeAddModal,
+    setAddDialog,
     handleAddBook,
   } = useBookList();
 
@@ -28,7 +26,7 @@ const BookList = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Book Library</h1>
         <button
-          onClick={openAddModal}
+          onClick={() => setAddDialog(true)}
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-md focus:outline-none focus:shadow-outline"
         >
           Add New Book
@@ -40,7 +38,7 @@ const BookList = () => {
             <BookListItem
               key={book.id}
               book={book}
-              onDelete={openDeleteConfirmation}
+              onDelete={setDeleteConfirmationDialog}
             />
           ))}
         </ul>
@@ -54,14 +52,14 @@ const BookList = () => {
         isOpen={deleteConfirmationOpen}
         message="Are you sure you want to delete this book?"
         onConfirm={confirmDelete}
-        onCancel={closeDeleteConfirmation}
+        onCancel={() => setDeleteConfirmationDialog()}
       />
 
       <BookFormModal
         loading={loading}
         error={error}
-        isOpen={isAddModalOpen}
-        onClose={closeAddModal}
+        isOpen={isAddDialogOpen}
+        onClose={() => setAddDialog(false)}
         onSubmit={handleAddBook}
       />
     </div>

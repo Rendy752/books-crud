@@ -2,16 +2,15 @@ import React from "react";
 import { useParams, Link } from "react-router-dom";
 import useBookDetail from "../hooks/useBookDetail";
 import BookFormModal from "../components/BookFormModal";
-import BookDetailItem from "../components/BookDetailItem"; // Import the new component
+import BookDetailItem from "../components/BookDetailItem";
 
 const BookDetail = () => {
   const {
     book,
     error,
     loading,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
+    isEditDialogOpen,
+    setEditDialog,
     handleUpdateBook,
   } = useBookDetail(useParams().id);
 
@@ -47,7 +46,7 @@ const BookDetail = () => {
         ))}
         <div className="mt-6 flex justify-end">
           <button
-            onClick={openEditModal}
+            onClick={() => setEditDialog(true)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Update Book
@@ -58,8 +57,8 @@ const BookDetail = () => {
       <BookFormModal
         loading={loading}
         error={error}
-        isOpen={isEditModalOpen}
-        onClose={closeEditModal}
+        isOpen={isEditDialogOpen}
+        onClose={() => setEditDialog(false)}
         onSubmit={handleUpdateBook}
         initialBook={book}
       />

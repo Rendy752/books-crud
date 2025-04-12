@@ -6,7 +6,7 @@ const useBookDetail = (bookId) => {
   const [book, setBook] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const fetchBook = async () => {
     setLoading(true);
@@ -29,12 +29,8 @@ const useBookDetail = (bookId) => {
     }
   }, []);
 
-  const openEditModal = () => {
-    setIsEditModalOpen(true);
-  };
-
-  const closeEditModal = () => {
-    setIsEditModalOpen(false);
+  const setEditDialog = (open) => {
+    setIsEditDialogOpen(open);
   };
 
   const handleUpdateBook = async (updatedBookData) => {
@@ -44,7 +40,7 @@ const useBookDetail = (bookId) => {
         await fetchBook();
         setError(null);
         toast.success("Book updated successfully!");
-        closeEditModal();
+        setEditDialog(false);
         return true;
       } catch (err) {
         setError(err.message);
@@ -59,9 +55,8 @@ const useBookDetail = (bookId) => {
     book,
     error,
     loading,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
+    isEditDialogOpen,
+    setEditDialog,
     handleUpdateBook,
   };
 };
